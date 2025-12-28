@@ -18,7 +18,15 @@
 
 ```bash
 # Download the latest release
-wget https://github.com/yourusername/ringbuffer/releases/latest/download/RingBuffer-x86_64.AppImage
+curl -L -o RingBuffer-x86_64.AppImage https://github.com/The-OffSec-Desk/ringbuffer/releases/download/v1.0.0/RingBuffer-x86_64.AppImage
+
+curl -L -o install-icon.sh https://github.com/The-OffSec-Desk/ringbuffer/releases/download/v1.0.0/install-icon.sh
+
+curl -L -o RingBuffer-x86_64.AppImage.sha256 https://github.com/The-OffSec-Desk/ringbuffer/releases/download/v1.0.0/RingBuffer-x86_64.AppImage.sha256
+
+# Verify
+sha256sum -c RingBuffer-x86_64.AppImage.sha256
+
 
 # Make executable
 chmod +x RingBuffer-x86_64.AppImage
@@ -31,8 +39,9 @@ chmod +x RingBuffer-x86_64.AppImage
 
 ```bash
 # Download both files
-wget https://github.com/yourusername/ringbuffer/releases/latest/download/RingBuffer-x86_64.AppImage
-wget https://github.com/yourusername/ringbuffer/releases/latest/download/install-icon.sh
+wget https://github.com/The-OffSec-Desk/ringbuffer/releases/download/v1.0.0/RingBuffer-x86_64.AppImage
+wget https://github.com/The-OffSec-Desk/ringbuffer/releases/download/v1.0.0/install-icon.sh
+wget https://github.com/The-OffSec-Desk/ringbuffer/releases/download/v1.0.0/RingBuffer-x86_64.AppImage.sha256
 
 # Make executable
 chmod +x RingBuffer-x86_64.AppImage
@@ -98,18 +107,18 @@ Kernel logs are critical, but `dmesg` is:
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                     User Interface                      │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │  Log View    │  │   Filters    │  │   Plugins    │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │  Log View    │  │   Filters    │  │   Plugins    │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 └─────────────────────────────────────────────────────────┘
                            ▲
                            │ Qt Signals
                            │
 ┌─────────────────────────────────────────────────────────┐
 │                    Core Engine                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │ Log Parser   │  │Event Emitter │  │  Plugins     │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │ Log Parser   │  │Event Emitter │  │  Plugins     │   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 └─────────────────────────────────────────────────────────┘
                            ▲
                            │ Direct Read
