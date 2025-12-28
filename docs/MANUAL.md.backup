@@ -1,0 +1,533 @@
+# RingBuffer User Manual
+
+Complete guide to using RingBuffer for kernel log monitoring and analysis.
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Basic Operations](#basic-operations)
+- [Filtering and Search](#filtering-and-search)
+- [Event Details](#event-details)
+- [Export and Saving](#export-and-saving)
+- [Plugin Usage](#plugin-usage)
+- [Advanced Features](#advanced-features)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
+- [Tips and Best Practices](#tips-and-best-practices)
+
+---
+
+## Getting Started
+
+### First Launch
+
+When you first launch RingBuffer:
+
+1. The application connects to `/dev/kmsg` (kernel message buffer)
+2. Historical logs are loaded from the ring buffer
+3. Real-time streaming begins automatically
+4. Events appear in the main log view
+
+**Note:** If you see permission errors, refer to the [Installation Guide](INSTALL.md#permissions-setup).
+
+### Understanding Kernel Logs
+
+Kernel logs contain messages from:
+- **Kernel core:** System initialization, memory management, scheduling
+- **Device drivers:** USB, network, storage, graphics
+- **Subsystems:** Networking, filesystem, security modules
+- **Hardware events:** Device connections, errors, state changes
+
+---
+
+ 
+
+```
+
+### Components
+
+1. **Menu Bar:** File, Edit, View, Plugins, Help
+2. **Toolbar:** Quick actions for common operations
+3. **Filter Panel (Left):** Severity and subsystem filters
+4. **Log View (Center):** Main event display area
+5. **Status Bar (Bottom):** Statistics and connection status
+
+---
+
+## Basic Operations
+
+### Starting and Stopping
+
+**Start Streaming:**
+- Click the **Play** button (▶) in toolbar
+- Or: Menu → **View → Start Streaming** (though by default it should work)
+- Shortcut: `Ctrl+R`
+
+**Pause Streaming:**
+- Click the **Pause** button (⏸) in toolbar
+- Or: Menu → **View → Pause Streaming**
+- Shortcut: `Ctrl+P`
+
+**Note:** Pausing only stops the display update; the kernel continues generating logs.
+
+### Clearing the Display
+
+**Clear All Events:**
+- Click **Clear** button in toolbar
+- Or: Menu → **Edit → Clear Display**
+- Shortcut: `Ctrl+L`
+
+**This only clears the display, not the kernel ring buffer.**
+
+### Auto-Scroll
+
+**Enable/Disable Auto-Scroll:**
+- Menu → **View → Auto-Scroll**
+- Shortcut: `Ctrl+Shift+A`
+
+When enabled, the view automatically scrolls to show newest events.
+
+---
+
+## Filtering and Search
+
+### Severity Filtering
+
+RingBuffer recognizes these kernel severity levels:
+
+| Level | Priority | Description | Color |
+|-------|----------|-------------|-------|
+| EMERG | 0 | System is unusable | Red (Bold) |
+| ALERT | 1 | Action must be taken immediately | Red |
+| CRIT | 2 | Critical conditions | Orange |
+| ERR | 3 | Error conditions | Orange |
+| WARN | 4 | Warning conditions | Yellow |
+| NOTICE | 5 | Normal but significant | Blue |
+| INFO | 6 | Informational | White |
+| DEBUG | 7 | Debug-level messages | Gray |
+
+**To filter by severity:**
+1. Use checkboxes in the left panel
+2. Check = Show, Uncheck = Hide
+3. Changes apply in real-time
+
+**Example Use Cases:**
+- **Show only errors:** Uncheck all except ERR, CRIT, ALERT, EMERG
+- **Hide debug noise:** Uncheck DEBUG and INFO
+- **Critical events only:** Check only EMERG and ALERT
+
+### Subsystem Filtering
+
+Common subsystems detected:
+- **USB:** USB device events
+- **NET:** Network interface and protocol events
+- **FS:** Filesystem operations
+- **KERNEL:** Core kernel messages
+- **DRM:** Graphics/display
+- **ACPI:** Power management
+- **SCSI:** Storage devices
+- **And more...**
+
+**To filter by subsystem:**
+1. Use checkboxes in subsystem section
+2. Multiple selections = OR logic (show if any match)
+
+### Text Search
+
+**Search for specific text:**
+1. Menu → **Edit → Find** (or `Ctrl+F`)
+2. Enter search term
+3. Press Enter or click **Find Next**
+
+**Search options:**
+- **Case sensitive:** Match exact case
+- **Whole word:** Match complete words only
+- **Regex:** Use regular expressions
+
+**Example searches:**
+```
+USB disconnect         # Find USB disconnection events
+error.*timeout         # Regex: errors with timeout
+segfault               # Find segmentation faults
+oom.*kill              # Out of memory events
+```
+
+### Advanced Filtering
+
+**Combine multiple filters:**
+- Severity + Subsystem: Shows only events matching BOTH criteria
+- Text search + Filters: Further narrows results
+
+**Save filter presets:**
+1. Set up your filters
+2. Menu → **View → Save Filter Preset**
+3. Name your preset (e.g., "USB Errors Only")
+4. Load later from **View → Filter Presets**
+
+---
+
+## Event Details
+
+### Viewing Event Information
+
+**Click any event to see details:**
+- **Timestamp (Monotonic):** Seconds since boot
+- **Timestamp (Realtime):** Wall-clock time
+- **Severity:** Log level
+- **Subsystem:** Component that generated the message
+- **PID:** Process ID (if applicable)
+- **CPU:** CPU core number (if available)
+- **Message:** Full message text
+- **Raw:** Original kernel log line
+
+### Continuation Lines
+
+Stack traces and hex dumps are grouped together:
+```
+[12345.678] kernel: BUG: unable to handle kernel paging request
+[12345.678]   Code: 8b 45 f4 89 c2 ...
+[12345.678]   Call Trace:
+[12345.678]    ? some_function+0x42/0x100
+```
+
+These are displayed as a single expandable event.
+
+### Context Menu
+
+**Right-click on any event:**
+- **Copy Message:** Copy to clipboard
+- **Copy Raw:** Copy original log line
+- **Copy All Details:** Copy complete event info
+- **Export Event:** Save single event to file
+- **Filter by Subsystem:** Show only this subsystem
+- **Hide Subsystem:** Exclude this subsystem
+
+---
+
+## Export and Saving
+
+### Export Filtered Events
+
+**Export what you see:**
+1. Apply filters to show desired events
+2. Menu → **File → Export Filtered**
+3. Choose format:
+   - **Plain Text (.txt):** Human-readable
+   - **JSON (.json):** Structured data
+   - **CSV (.csv):** Spreadsheet-compatible
+4. Select location and save
+
+### Export All Events
+
+**Export complete buffer:**
+1. Menu → **File → Export All**
+2. Choose format and location
+
+### Save Session
+
+**Save current state:**
+1. Menu → **File → Save Session**
+2. Saves:
+   - All captured events
+   - Current filters
+   - Window layout
+3. Restore later with **File → Load Session**
+
+---
+
+## Plugin Usage
+
+### Available Plugins
+
+RingBuffer includes several built-in plugins:
+
+#### USB Monitor Plugin
+**Purpose:** Track USB device connections and disconnections
+
+**Features:**
+- Real-time device connection alerts
+- Device enumeration
+- Vendor/Product ID extraction
+- Connection history
+
+**Usage:**
+1. Menu → **Plugins → USB Monitor**
+2. Enable monitoring
+3. View device list and events
+
+#### Network Events Plugin
+**Purpose:** Monitor network interface changes
+
+**Features:**
+- Interface up/down detection
+- IP address changes
+- Link state monitoring
+- Packet drop alerts
+
+**Usage:**
+1. Menu → **Plugins → Network Events**
+2. Select interfaces to monitor
+3. Set alert thresholds
+
+#### System Health Plugin
+**Purpose:** Track system health indicators
+
+**Features:**
+- OOM (Out of Memory) detection
+- Kernel panic monitoring
+- Hardware error detection
+- Temperature warnings
+
+**Usage:**
+1. Menu → **Plugins → System Health**
+2. Automatic monitoring
+3. Alerts for critical events
+
+### Managing Plugins
+
+**Enable/Disable:**
+- Menu → **Plugins → Manage Plugins**
+- Toggle individual plugins
+- Changes take effect immediately
+
+**Plugin Settings:**
+- Menu → **Plugins → [Plugin Name] → Settings**
+- Configure plugin-specific options
+
+---
+
+## Advanced Features
+
+### Snapshot Mode
+
+**Capture a point-in-time snapshot:**
+1. Menu → **View → Take Snapshot**
+2. Current buffer state is saved
+3. Compare with later states
+
+**Use cases:**
+- Before/after system changes
+- Debugging intermittent issues
+- Performance baseline
+
+### Statistics View
+
+**View event statistics:**
+1. Menu → **View → Statistics**
+2. See:
+   - Events per second
+   - Events by severity
+   - Events by subsystem
+   - Timeline graph
+
+### Log Correlation
+
+**Correlate related events:**
+1. Select an event
+2. Menu → **Tools → Find Related Events**
+3. Shows events:
+   - Same subsystem
+   - Similar timestamp
+   - Same PID
+
+### Custom Parsers
+
+**Create custom message parsers:**
+1. Menu → **Tools → Custom Parsers**
+2. Define regex patterns
+3. Extract structured data from messages
+
+**Example:**
+```regex
+Pattern: USB device (?P<device>\d+-\d+): (?P<action>.+)
+Extracts: device="1-2", action="new high-speed device"
+```
+
+---
+
+## Keyboard Shortcuts
+
+### Global
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+R` | Start/Resume streaming |
+| `Ctrl+P` | Pause streaming |
+| `Ctrl+L` | Clear display |
+| `Ctrl+F` | Find/Search |
+| `Ctrl+Q` | Quit application |
+| `F11` | Toggle fullscreen |
+
+### Navigation
+
+| Shortcut | Action |
+|----------|--------|
+| `↑` / `↓` | Navigate events |
+| `Page Up` / `Page Down` | Scroll page |
+| `Home` | Jump to first event |
+| `End` | Jump to last event |
+| `Ctrl+Home` | Jump to oldest event |
+| `Ctrl+End` | Jump to newest event |
+
+### Filtering
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+Shift+F` | Clear all filters |
+| `Ctrl+1` to `Ctrl+8` | Toggle severity levels |
+| `Ctrl+Shift+A` | Toggle auto-scroll |
+
+### Export
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl+S` | Save session |
+| `Ctrl+E` | Export filtered |
+| `Ctrl+Shift+E` | Export all |
+
+---
+
+## Tips and Best Practices
+
+### Performance Optimization
+
+**For high-volume systems:**
+1. **Enable filtering early:** Don't show DEBUG/INFO on busy systems
+2. **Limit history:** Menu → **Preferences → History Size**
+3. **Pause when analyzing:** Pause to prevent UI lag while investigating
+
+### Effective Debugging Workflows
+
+**Finding the root cause:**
+1. Start with ERROR/CRIT only
+2. Note timestamp of first error
+3. Expand time range to see leading events
+4. Look for patterns in subsystem
+
+**USB debugging:**
+1. Enable USB Monitor plugin
+2. Filter for subsystem: USB
+3. Correlate disconnect with errors
+4. Check vendorID/productID
+
+**Network issues:**
+1. Enable Network Events plugin
+2. Filter for subsystem: NET
+3. Look for interface state changes
+4. Correlate with packet loss
+
+### Security Monitoring
+
+**Monitor for suspicious activity:**
+1. Set up alert keywords: "denied", "unauthorized", "failed"
+2. Enable System Health plugin
+3. Export security events regularly
+4. Correlate with other logs
+
+### Kernel Development
+
+**While testing drivers:**
+1. Clear buffer before test
+2. Take snapshot before operation
+3. Trigger test scenario
+4. Take another snapshot
+5. Compare snapshots
+
+---
+
+## Common Use Cases
+
+### Troubleshooting USB Device Issues
+
+**Scenario:** USB device keeps disconnecting
+
+**Steps:**
+1. Start RingBuffer
+2. Enable USB Monitor plugin
+3. Filter: Subsystem = USB, Severity = ERR+
+4. Reproduce the disconnect
+5. Look for:
+   - `device descriptor read` errors
+   - `unable to enumerate` messages
+   - Power-related warnings
+
+### Investigating System Crashes
+
+**Scenario:** System crashed, need to find cause
+
+**Steps:**
+1. Boot system
+2. Launch RingBuffer
+3. Look for most recent EMERG/CRIT before crash
+4. Common patterns:
+   - `kernel panic` = critical kernel error
+   - `Out of memory` = OOM killer activated
+   - `MCE` = hardware error
+
+### Monitoring Driver Initialization
+
+**Scenario:** Testing new driver
+
+**Steps:**
+1. Clear buffer
+2. Load module: `sudo modprobe your_driver`
+3. Watch for:
+   - Initialization sequence
+   - Device registration
+   - Any errors or warnings
+4. Export logs for documentation
+
+### Network Performance Analysis
+
+**Scenario:** Investigating packet drops
+
+**Steps:**
+1. Enable Network Events plugin
+2. Filter: Subsystem = NET
+3. Search for: "drop", "congestion", "overflow"
+4. Correlate with performance metrics
+5. Identify bottleneck interface
+
+---
+
+## Troubleshooting
+
+### No Events Appearing
+
+**Check:**
+1. Streaming is started (▶ button)
+2. Filters aren't excluding everything
+3. Permissions are correct (see [Installation Guide](INSTALL.md))
+
+### High CPU Usage
+
+**Solutions:**
+1. Increase filter severity (hide DEBUG/INFO)
+2. Disable unused plugins
+3. Reduce history size in preferences
+
+### Events Not Updating
+
+**Causes:**
+- Auto-scroll is disabled (enable in View menu)
+- Streaming is paused (press ▶)
+- Display filter is too restrictive
+
+---
+
+## Getting Help
+
+**Resources:**
+- [Installation Guide](INSTALL.md) - Setup and permissions
+- [Plugin Development](PLUGINS.md) - Extend functionality
+- [Architecture](ARCHITECTURE.md) - Technical details
+- [GitHub Issues](https://github.com/The-OffSec-Desk/ringbuffer/issues) - Report bugs
+
+**Community:**
+- [GitHub Discussions](https://github.com/The-OffSec-Desk/ringbuffer/discussions)
+- Report bugs with detailed logs
+- Request features with use cases
+
+---
+
+**Happy kernel debugging! 🔍**
+EOF
