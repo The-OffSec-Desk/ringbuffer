@@ -196,7 +196,7 @@ python3 main.py
 
 ### Building AppImage
 
-See [BUILD.md](BUILD.md) for detailed instructions on building the AppImage from source.
+See [BUILD.md](INSTALL.md#building-from-source) for detailed instructions on building the AppImage from source.
 
 ---
 
@@ -214,7 +214,7 @@ class MyPlugin(BasePlugin):
             self.emit_alert(f"USB device: {event.message}")
 ```
 
-See [PLUGINS.md](PLUGINS.md) for detailed plugin documentation.
+See [PLUGINS.md](docs/PLUGINS.md) for detailed plugin documentation.
 
 ---
 
