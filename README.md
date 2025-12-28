@@ -166,7 +166,7 @@ sudo setcap cap_syslog=ep RingBuffer-x86_64.AppImage
 
 ```bash
 # Download checksum
-wget https://github.com/yourusername/ringbuffer/releases/latest/download/RingBuffer-x86_64.AppImage.sha256
+wget https://github.com/The-OffSec-Desk/ringbuffer/releases/latest/download/RingBuffer-x86_64.AppImage.sha256
 
 # Verify
 sha256sum -c RingBuffer-x86_64.AppImage.sha256
@@ -180,7 +180,7 @@ Expected output: `RingBuffer-x86_64.AppImage: OK`
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/ringbuffer.git
+git clone https://github.com/The-OffSec-Desk/ringbuffer.git
 cd ringbuffer
 
 # Create virtual environment
