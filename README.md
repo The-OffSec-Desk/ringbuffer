@@ -9,7 +9,7 @@
 
 **This is not a wrapper. This is a streaming kernel log engine with a professional frontend.**
 
-![RingBuffer Screenshot](https://res.cloudinary.com/dipvhqnzw/image/upload/v1766902471/ringbuffer-dashboard_ydeduf.jpg)
+![RingBuffer Screenshot](https://res.cloudinary.com/dipvhqnzw/image/upload/v1766904347/Airbrush-OBJECT-REMOVER-1766904321138_bebllg.png)
 
 ---
 
