@@ -196,7 +196,7 @@ python3 main.py
 
 ### Building AppImage
 
-See [BUILD.md](INSTALL.md#building-from-source) for detailed instructions on building the AppImage from source.
+See [BUILD.md](https://github.com/The-OffSec-Desk/ringbuffer/blob/main/docs/INSTALL.md#building-from-source) for detailed instructions on building the AppImage from source.
 
 ---
 
