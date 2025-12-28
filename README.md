@@ -1,7 +1,7 @@
 # RingBuffer
 
-[![Release](https://img.shields.io/github/v/release/The-OffSec-Desk/ringbuffer?style=flat-square)](https://github.com/The-OffSec-Desk/ringbuffer/releases)
-[![Downloads](https://img.shields.io/github/downloads/The-OffSec-Desk/ringbuffer/total?style=flat-square)](https://github.com/The-OffSec-Desk/ringbuffer/releases)
+[![Release](https://img.shields.io/github/v/release/The-OffSec-Desk/ringbuffer?style=flat-square)](https://github.com/The-OffSec-Desk/ringbuffer/releases/tag/v1.0.0)
+[![Downloads](https://img.shields.io/github/downloads/The-OffSec-Desk/ringbuffer/total?style=flat-square)](https://github.com/The-OffSec-Desk/ringbuffer/releases/tag/v1.0.0)
 [![License](https://img.shields.io/github/license/The-OffSec-Desk/ringbuffer?style=flat-square)](LICENSE)
 
 **RingBuffer** is a native desktop application that provides real-time, structured access to the Linux kernel ring buffer. It exposes the same kernel messages behind `dmesg`, but in a live, searchable, and extensible GUI designed for kernel developers, security researchers, and system engineers.
