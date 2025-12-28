@@ -248,6 +248,15 @@ chmod +x RingBuffer-x86_64.AppImage
 ```
 
 ---
+## 📚 Documentation(in progress)
+
+- [Installation Guide](docs/INSTALL.md)
+- [User Manual](docs/MANUAL.md)
+- [Plugin Development](docs/PLUGINS.md)
+- [Architecture Details](docs/ARCHITECTURE.md)
+- [Contributing Guidelines](CONTRIBUTING.md)
+
+---
 
 ## Development Setup
 
@@ -271,7 +280,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [PySide6](https://doc.qt.io/qtforpython/) (Qt for Python)
 - Packaged with [AppImageKit](https://github.com/AppImage/AppImageKit)
