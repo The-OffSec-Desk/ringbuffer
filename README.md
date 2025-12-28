@@ -254,7 +254,6 @@ chmod +x RingBuffer-x86_64.AppImage
 - [User Manual](docs/MANUAL.md)
 - [Plugin Development](docs/PLUGINS.md)
 - [Architecture Details](docs/ARCHITECTURE.md)
-- [Contributing Guidelines](CONTRIBUTING.md)
 
 ---
 
